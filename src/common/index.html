@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/png" sizes="48x48" href="/star.png" />
+		<title>Simid Preview</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			body {
+				font-family: system-ui, -apple-system, sans-serif;
+				background: #bbbbbb;
+				color: #fff;
+			}
+			.header {
+				padding: 1rem 2rem;
+				background: #2a2a2a;
+				border-bottom: 1px solid #3a3a3a;
+			}
+			.header h1 {
+				font-size: 1.2rem;
+				font-weight: 500;
+			}
+			.creative-info {
+				font-size: 0.9rem;
+				color: #888;
+				margin-top: 0.5rem;
+			}
+			.container {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				min-height: calc(100vh - 80px);
+				padding: 2rem;
+			}
+			iframe {
+				width: 100%;
+				height: auto;
+				aspect-ratio: 16 / 9;
+				border: 2px solid #3a3a3a;
+				border-radius: 8px;
+				background: white;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="header">
+			<h1>Simid Creative Framework - Preview</h1>
+			<!-- <div class="creative-info" id="creativeInfo">
+				Loading creative...
+			</div> -->
+		</div>
+		<div class="container">
+			<iframe
+				id="creativeFrame"
+				src="creative.html"
+				width="800"
+				height="600"
+				title="Creative Preview"
+			>
+			</iframe>
+		</div>
+
+		<script>
+			// Update creative info from package.json config
+			const creativeInfo = document.getElementById("creativeInfo");
+
+			// Optional: Add reload button or controls here
+			window.addEventListener("keydown", (e) => {
+				if (e.key === "r" && (e.metaKey || e.ctrlKey)) {
+					document.getElementById("creativeFrame").src += "";
+				}
+			});
+		</script>
+	</body>
+</html>

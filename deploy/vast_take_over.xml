@@ -1,0 +1,39 @@
+<VAST version="4.2">
+    <Ad id="{campaignName}">
+        <InLine>
+            <AdSystem>studioDM</AdSystem>
+            <AdTitle>{campaignName}</AdTitle>
+            <AdServingId>{adServingId}</AdServingId>
+            <Description/>
+            <Impression/>
+            <Creatives>
+                <Creative id="{campaignName}">
+                    <Linear>
+                        <Duration>00:00:{duration}</Duration>
+                        <TrackingEvents/>
+                        <VideoClicks/>
+                        <AdParameters>
+                            <![CDATA[ { "creativeId":"{campaignName}",  "creativeVersion":"{version}" } ]]>
+                        </AdParameters>
+                        <MediaFiles>
+                           <MediaFile type="application/javascript" width="1920" height="1080" apiFramework="VPAID" delivery="progressive" maintainAspectRatio="true"><![CDATA[ {indexUrl}?inventory_id=${INVENTORY_ID}&external_creative_id=${CREATIVE_ID}&external_insertion_order_id=${INSERTION_ORDER_ID}&external_campaign_id=${CAMPAIGN_ID} ]]></MediaFile>
+                            <MediaFile type="application/x-javascript" width="1920" height="1080" apiFramework="VPAID" delivery="progressive" maintainAspectRatio="true"><![CDATA[ {indexUrl}?inventory_id=${INVENTORY_ID}&external_creative_id=${CREATIVE_ID}&external_insertion_order_id=${INSERTION_ORDER_ID}&external_campaign_id=${CAMPAIGN_ID} ]]></MediaFile>
+                        </MediaFiles>
+                    </Linear>
+                </Creative>
+                <Creative id="Campaign_companion">
+                    <CompanionAds required="all">
+                        <Companion width="300" height="250">
+                            <StaticResource creativeType="application/javascript">
+                                <![CDATA[ {indexUrl} ]]>
+                            </StaticResource>
+                        </Companion>
+                    </CompanionAds>
+                </Creative>
+            </Creatives>
+            <Extensions>
+                <Extension/>
+            </Extensions>
+        </InLine>
+    </Ad>
+</VAST>

@@ -1,0 +1,29 @@
+<VAST version="2.0">
+    <Ad id="genericCreativeId">
+        <InLine>
+            <AdSystem>StudioDM</AdSystem>
+            <AdTitle>genericCreativeId</AdTitle>
+            <ViewableImpression/>
+            <AdVerifications/>
+            <Extensions/>
+            <Creatives>
+                <Creative id="genericCreativeId-creative">
+                    <Linear>
+                        <Duration>00:00:15</Duration>
+                        <TrackingEvents/>
+                        <VideoClicks/>
+                        <MediaFiles>
+                            <MediaFile type="application/javascript" apiFramework="VPAID" maintainAspectRatio="true">
+                                <![CDATA[https://localhost:8080/index.js]]>
+                            </MediaFile>
+                            <MediaFile type="application/x-javascript" apiFramework="VPAID" maintainAspectRatio="true">
+                                <![CDATA[https://localhost:8080/index.js]]>
+                            </MediaFile>
+                        </MediaFiles>
+                    </Linear>
+                </Creative>
+            </Creatives>
+        </InLine>
+    </Ad>
+</VAST>
+<!-- https://statics.dmcdn.net/d/devTools/vast_tools/vast_local.xml -->

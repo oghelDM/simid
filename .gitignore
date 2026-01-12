@@ -1,0 +1,22 @@
+####
+# common
+####
+.env
+dist
+
+####
+# Node
+####
+
+node_modules
+/build/
+
+*inputs*
+
+#####
+# IDE
+#####
+
+# VSCode
+*.code-workspace
+**/.DS_Store

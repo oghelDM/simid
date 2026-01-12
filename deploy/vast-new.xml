@@ -1,0 +1,29 @@
+<VAST version="4.2">
+    <Ad id="{campaignName}">
+        <InLine>
+            <AdSystem>StudioDM</AdSystem>
+            <AdTitle>{campaignName}</AdTitle>
+            <Impression></Impression>
+            <Creatives>
+                <Creative id="{campaignName}c">
+                    <Linear>
+                        <Duration>00:00:20</Duration>
+                        <TrackingEvents/>
+                        <VideoClicks/>
+                        <MediaFiles>
+                            <MediaFile type="application/javascript" width="1920" height="1080" apiFramework="VPAID"
+                delivery="progressive" maintainAspectRatio="true">
+                                <![CDATA[ {indexUrl} ]]>
+                            </MediaFile>
+                            <MediaFile type="application/x-javascript" width="1920" height="1080" apiFramework="VPAID"
+                delivery="progressive" maintainAspectRatio="true">
+                                <![CDATA[ {indexUrl} ]]>
+                            </MediaFile>
+                        </MediaFiles>
+                    </Linear>
+                    <UniversalAdId idRegistry=""></UniversalAdId>
+                </Creative>
+            </Creatives>
+        </InLine>
+    </Ad>
+</VAST>

@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+		"baseUrl": "src",
+		"paths": {
+			"@/*": ["common/*"],
+			"@app": ["common/app/app.ts"],
+			"@assets/*": ["../assets/*"],
+			"@creatives/*": ["creatives/*"]
+		},
+		"outDir": "./dist/",
+		"target": "ES2020",
+		"lib": ["ES2020", "DOM", "dom.iterable"],
+		"typeRoots": ["./node_modules/@types", "./src/common/types"],
+		"allowJs": false,
+		"esModuleInterop": true,
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"noImplicitAny": true,
+		"resolveJsonModule": true,
+		"strictNullChecks": true,
+		"removeComments": true,
+		"allowSyntheticDefaultImports": true
+	},
+	"include": ["src/**/*"]
+}
