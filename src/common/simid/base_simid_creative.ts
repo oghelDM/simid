@@ -13,7 +13,7 @@ export class BaseSimidCreative {
 	private environmentData: any = {};
 	private videoState: any = {};
 	private simidVersion = "";
-	private simidProtocol: any;
+	protected simidProtocol: any;
 
 	private root = document.body;
 
@@ -66,56 +66,56 @@ export class BaseSimidCreative {
 	 */
 	addListeners_() {
 		this.simidProtocol.addListener(PlayerMessage.INIT, (e: any) =>
-			this.onInit(e)
+			this.onInit(e),
 		);
 		this.simidProtocol.addListener(PlayerMessage.START_CREATIVE, (e: any) =>
-			this.onStart(e)
+			this.onStart(e),
 		);
 		this.simidProtocol.addListener(PlayerMessage.FATAL_ERROR, (e: any) =>
-			this.onFatalError(e)
+			this.onFatalError(e),
 		);
 		this.simidProtocol.addListener(PlayerMessage.AD_STOPPED, (e: any) =>
-			this.onAdStopped(e)
+			this.onAdStopped(e),
 		);
 		this.simidProtocol.addListener(PlayerMessage.AD_SKIPPED, (e: any) =>
-			this.onAdSkipped(e)
+			this.onAdSkipped(e),
 		);
 		this.simidProtocol.addListener(PlayerMessage.LOG, (e: any) =>
-			this.onReceivePlayerLog(e)
+			this.onReceivePlayerLog(e),
 		);
 		this.simidProtocol.addListener(PlayerMessage.RESIZE, (e: any) =>
-			this.onReceiveResize(e)
+			this.onReceiveResize(e),
 		);
 		// Handlers with different video events.
 		this.simidProtocol.addListener(MediaMessage.DURATION_CHANGE, (e: any) =>
-			this.onDurationChange(e)
+			this.onDurationChange(e),
 		);
 		this.simidProtocol.addListener(MediaMessage.ENDED, (e: any) =>
-			this.onVideoEnded()
+			this.onVideoEnded(),
 		);
 		this.simidProtocol.addListener(MediaMessage.ERROR, (e: any) =>
-			this.onVideoError()
+			this.onVideoError(),
 		);
 		this.simidProtocol.addListener(MediaMessage.PAUSE, (e: any) =>
-			this.onPause()
+			this.onPause(),
 		);
 		this.simidProtocol.addListener(MediaMessage.PLAY, (e: any) =>
-			this.onPlay()
+			this.onPlay(),
 		);
 		this.simidProtocol.addListener(MediaMessage.PLAYING, (e: any) =>
-			this.onPlaying()
+			this.onPlaying(),
 		);
 		this.simidProtocol.addListener(MediaMessage.SEEKED, (e: any) =>
-			this.onSeeked()
+			this.onSeeked(),
 		);
 		this.simidProtocol.addListener(MediaMessage.SEEKING, (e: any) =>
-			this.onSeeking()
+			this.onSeeking(),
 		);
 		this.simidProtocol.addListener(MediaMessage.TIME_UPDATE, (e: any) =>
-			this.onTimeUpdate(e)
+			this.onTimeUpdate(e),
 		);
 		this.simidProtocol.addListener(MediaMessage.VOLUME_CHANGE, (e: any) =>
-			this.onVolumeChange(e)
+			this.onVolumeChange(e),
 		);
 	}
 
@@ -284,7 +284,7 @@ export class BaseSimidCreative {
 			"onTimeUpdate: ",
 			this.videoState,
 			data,
-			data.args.currentTime
+			data.args.currentTime,
 		);
 		this.videoState.currentTime = data.args.currentTime;
 	}

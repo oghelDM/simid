@@ -11,20 +11,12 @@
 		"creativeVersion": ""
 	},
 	"scripts": {
-		"devq": "./node_modules/.bin/webpack serve --mode development --hot --port=8081 --entry=./src/creatives/$npm_package_config_creativePath",
-		"dev": "./node_modules/.bin/webpack serve --mode development --hot --port=8080 --entry=./src/creatives/$npm_config_target",
-		"dev3": "./node_modules/.bin/webpack serve --mode development --hot --port=8080 --entry=./src/creatives/examples/collectionMizuno.ts",
-		"build": "webpack --mode production --entry=./src/creatives/$npm_config_target",
-		"build2": "npm run build --target=2024/Entertainement_Paramount_Plus_Halo_Interactive_Countdown_2401_CAMPAIGN_FR_15s/creative.ts",
-		"build3": "npm run build --target=examples/collectionMizuno.ts",
+		"dev": "./node_modules/.bin/webpack serve --mode development --hot --port=8081 --entry=./src/creatives/$npm_package_config_creativePath",
+		"build": "webpack --mode production --entry=./src/creatives/$npm_package_config_creativePath",
 		"lint:check": "eslint . --ext .ts",
 		"lint:fix": "eslint . --ext .ts --fix",
-		"devv": "./node_modules/.bin/webpack serve --mode development --hot --port=8080 --entry=./src/creatives/$npm_package_config_creativeYear/$npm_package_config_creativeCampaign/creative.ts",
-		"buildd": "npm run build --target=$npm_package_config_creativeYear/$npm_package_config_creativeCampaign/creative.ts",
-		"deploy": "npm run build --target=$npm_package_config_creativeYear/$npm_package_config_creativeCampaign/creative.ts && gulp --year $npm_package_config_creativeYear --campaign $npm_package_config_creativeCampaign --creativeVersion $npm_package_config_creativeVersion --duration $npm_package_config_creativeDuration",
-		"devTakeOver": "./node_modules/.bin/webpack serve --mode development --hot --port=8080 --entry=./src/takeOvers/$npm_package_config_creativeYear/$npm_package_config_creativeCampaign/creative.ts",
-		"buildTakeOver": "webpack --mode production --entry=./src/takeOvers/$npm_config_target",
-		"deployTakeOver": "npm run buildTakeOver --target=$npm_package_config_creativeYear/$npm_package_config_creativeCampaign/creative.ts && gulp --isTakeOver true --year $npm_package_config_creativeYear --campaign $npm_package_config_creativeCampaign --creativeVersion $npm_package_config_creativeVersion --duration $npm_package_config_creativeDuration"
+		"devv": "./node_modules/.bin/webpack serve --mode development --hot --port=8081 --entry=./src/creatives/$npm_package_config_creativeYear/$npm_package_config_creativeCampaign/creative.ts",
+		"deploy": "npm run build --target=$npm_package_config_creativeYear/$npm_package_config_creativeCampaign/creative.ts && gulp --year $npm_package_config_creativeYear --campaign $npm_package_config_creativeCampaign --creativeVersion $npm_package_config_creativeVersion --duration $npm_package_config_creativeDuration"
 	},
 	"private": true,
 	"dependencies": {
