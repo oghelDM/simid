@@ -34,19 +34,37 @@
 				margin-top: 0.5rem;
 			}
 			.container {
+				position: relative;
+				width: 100%;
+				height: auto;
+				aspect-ratio: 16 / 9;
 				display: flex;
 				justify-content: center;
 				align-items: center;
 				min-height: calc(100vh - 80px);
 				padding: 2rem;
 			}
+			.creativeContainer {
+				position: relative;
+				width: 100%;
+				height: auto;
+				aspect-ratio: 16 / 9;
+				outline: 2px solid #3a3a3a;
+				background-color: rgba(255, 0, 0, 0.4);
+			}
 			iframe {
 				width: 100%;
 				height: auto;
 				aspect-ratio: 16 / 9;
-				border: 2px solid #3a3a3a;
-				border-radius: 8px;
 				background: white;
+				padding: unset;
+				margin: unset;
+				border: none;
+			}
+			video {
+				position: absolute;
+				width: 100%;
+				height: 100%;
 			}
 		</style>
 	</head>
@@ -58,14 +76,119 @@
 			</div> -->
 		</div>
 		<div class="container">
-			<iframe
-				id="creativeFrame"
-				src="creative.html"
-				width="800"
-				height="600"
-				title="Creative Preview"
-			>
-			</iframe>
+			<div class="creativeContainer">
+				<video muted id="videoId">
+					<source src="" type="video/mp4" />
+				</video>
+
+				<iframe
+					id="creativeFrame"
+					src="creative.html"
+					title="Creative Preview"
+				>
+				</iframe>
+
+				<div
+					id="video-controls"
+					style="
+						position: absolute;
+						bottom: 0;
+						width: 100%;
+						height: 60px;
+						color: white;
+						pointer-events: none;
+						z-index: 99;
+					"
+				>
+					<div
+						id="progress-bar"
+						style="
+							position: absolute;
+							bottom: 0;
+							width: 100%;
+							height: 8px;
+							background-color: gray;
+						"
+					>
+						<div
+							id="progress-bar-id"
+							style="
+								position: absolute;
+								width: 0%;
+								height: 100%;
+								background-color: orange;
+							"
+						></div>
+					</div>
+					<div
+						style="
+							display: flex;
+							justify-content: space-between;
+							padding: 0 10px;
+							align-items: center;
+							height: 52px;
+							font-size: 40px;
+							user-select: none;
+							cursor: pointer;
+						"
+					>
+						<div style="display: flex; gap: 4px">
+							<div
+								id="playBtn-id"
+								style="
+									width: 40px;
+									height: 40px;
+									/* background-color: chartreuse; */
+									text-align: center;
+									line-height: 40px;
+									pointer-events: auto;
+								"
+							>
+								⏸️
+							</div>
+							<div
+								id="remainingTime-id"
+								style="
+									width: 40px;
+									height: 40px;
+									text-align: center;
+									line-height: 40px;
+									font-size: 16px;
+									font-family: sans-serif;
+								"
+							>
+								0:00
+							</div>
+						</div>
+						<div style="display: flex; gap: 4px">
+							<div
+								id="muteBtn-id"
+								style="
+									width: 40px;
+									height: 40px;
+									text-align: center;
+									line-height: 40px;
+									pointer-events: auto;
+								"
+							>
+								🔇
+							</div>
+							<div
+								id="fullscreenBtn-id"
+								style="
+									width: 40px;
+									height: 40px;
+									text-align: center;
+									line-height: 40px;
+									pointer-events: auto;
+								"
+							>
+								❇️
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<script>
@@ -78,6 +201,17 @@
 					document.getElementById("creativeFrame").src += "";
 				}
 			});
+
+			const iframe = document.getElementById("creativeFrame");
+			iframe.onload = (a) => {
+				// Access iframe's window directly (same origin only)
+				const assetsPrefixUrl = iframe.contentWindow.assetsPrefixUrl;
+				console.log("Creative a:", a.target);
+				console.log("Creative assetsPrefixUrl:", assetsPrefixUrl);
+				const video = document.getElementById("videoId");
+				video.src = `${assetsPrefixUrl}video_mid.mp4`;
+				video.play();
+			};
 		</script>
 	</body>
 </html>

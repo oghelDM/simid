@@ -4,15 +4,14 @@
 	"description": "",
 	"type": "commonjs",
 	"config": {
-		"creativePath": "simid/index.ts",
 		"creativeYear": "2026",
-		"creativeCampaign": "toto",
+		"creativeCampaign": "myFirstSimidCreative",
 		"creativeDuration": "15",
 		"creativeVersion": ""
 	},
 	"scripts": {
-		"dev": "./node_modules/.bin/webpack serve --mode development --hot --port=8081 --entry=./src/creatives/$npm_package_config_creativePath",
-		"build": "webpack --mode production --entry=./src/creatives/$npm_package_config_creativePath",
+		"dev": "./node_modules/.bin/webpack serve --mode development --hot --port=8081 --entry=./src/creatives/$npm_package_config_creativeYear/$npm_package_config_creativeCampaign/index.ts",
+		"build": "webpack --mode production --entry=./src/creatives/$npm_package_config_creativeYear/$npm_package_config_creativeCampaign",
 		"lint:check": "eslint . --ext .ts",
 		"lint:fix": "eslint . --ext .ts --fix",
 		"devv": "./node_modules/.bin/webpack serve --mode development --hot --port=8081 --entry=./src/creatives/$npm_package_config_creativeYear/$npm_package_config_creativeCampaign/creative.ts",

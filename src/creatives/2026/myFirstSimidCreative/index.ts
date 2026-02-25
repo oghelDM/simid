@@ -6,7 +6,9 @@ console.log("hello3");
 
 class SimidDebug extends BaseSimidCreative {
 	constructor() {
-		super();
+		super(
+			"https://statics.dmcdn.net/d/PRODUCTION/2025/Food_Drink_Nutripure_Gel_Interactive_Carousel_2506_CAMPAIGN_FR_40s/assets/",
+		);
 
 		console.log("hello");
 
@@ -17,11 +19,9 @@ class SimidDebug extends BaseSimidCreative {
 		}
 
 		root.appendChild(
-			new ImageDM(
-				"img",
-				"https://statics.dmcdn.net/d/PRODUCTION/2025/Food_Drink_Nutripure_Gel_Interactive_Carousel_2506_CAMPAIGN_FR_40s/assets/bg.png",
-				{ inset: "0 0 0 0" },
-			),
+			new ImageDM("img", `${this.assetsPrefixUrl}bg.png`, {
+				inset: "0 0 0 0",
+			}),
 		);
 
 		[

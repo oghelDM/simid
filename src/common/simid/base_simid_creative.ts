@@ -9,6 +9,8 @@ import {
  * be the same for all simid ads.
  */
 export class BaseSimidCreative {
+	protected assetsPrefixUrl = "";
+
 	private creativeData: any = {};
 	private environmentData: any = {};
 	private videoState: any = {};
@@ -17,7 +19,10 @@ export class BaseSimidCreative {
 
 	private root = document.body;
 
-	constructor() {
+	constructor(assetsPrefixUrl: string) {
+		this.assetsPrefixUrl = assetsPrefixUrl;
+		(window as any).assetsPrefixUrl = assetsPrefixUrl;
+
 		/**
 		 * Data about the creative, not known until after init.
 		 * @protected {?Object}
