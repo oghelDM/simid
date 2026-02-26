@@ -33,7 +33,7 @@
 				color: #888;
 				margin-top: 0.5rem;
 			}
-			.container {
+			#container {
 				position: relative;
 				width: 100%;
 				height: auto;
@@ -44,7 +44,7 @@
 				min-height: calc(100vh - 80px);
 				padding: 2rem;
 			}
-			.creativeContainer {
+			#creativeContainer {
 				position: relative;
 				width: 100%;
 				height: auto;
@@ -75,8 +75,8 @@
 				Loading creative...
 			</div> -->
 		</div>
-		<div class="container">
-			<div class="creativeContainer">
+		<div id="container">
+			<div id="creativeContainer">
 				<video muted id="videoId">
 					<source src="" type="video/mp4" />
 				</video>
@@ -203,6 +203,7 @@
 			});
 
 			const video = document.getElementById("videoId");
+			const container = document.getElementById("container");
 			const iframe = document.getElementById("creativeFrame");
 			iframe.onload = (a) => {
 				// Access iframe's window directly (same origin only)
@@ -233,8 +234,26 @@
 					video.pause();
 				}
 			};
+			const toggleFullScreen = (fulllScreen) => {
+				console.log("toggleFullScreen: ", fulllScreen);
+				fullscreenBtn.innerHTML = fulllScreen ? "❎" : "❇️";
+				if (fulllScreen && !document.fullscreenElement) {
+					container.requestFullscreen();
+				} else if (
+					!fulllScreen &&
+					document.exitFullscreen &&
+					document.fullscreenElement
+				) {
+					document.exitFullscreen();
+				}
+			};
+			const toggleMute = (mute) => {
+				console.log("toggleMute: ", mute);
+				muteBtn.innerHTML = mute ? "🔇" : "🔈";
+				video.muted = mute;
+			};
 
-			// video controls towards creative
+			// video controls, message towards creative
 			playBtn.addEventListener("click", (e) => {
 				e.preventDefault();
 				e.stopPropagation();
@@ -245,16 +264,45 @@
 					"*",
 				);
 			});
+			fullscreenBtn.addEventListener("click", (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				const isFullScreen = fullscreenBtn.innerHTML === "❎";
+				toggleFullScreen(!isFullScreen);
+				// no notification to the creative
+			});
+			muteBtn.addEventListener("click", (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				const isMuted = muteBtn.innerHTML === "🔇";
+				toggleMute(!isMuted);
+				iframe.contentWindow.postMessage(
+					JSON.stringify(isMuted ? "Media:unmute" : "Media:mute"),
+					"*",
+				);
+			});
 
-			// creative towards video controls
+			// from creative towards video controls
 			window.addEventListener("message", (event) => {
 				const data = JSON.parse(event.data);
 				console.log("message received event: ", event);
 				console.log("message received data: ", data);
-				if (data.type === "SIMID:Creative:requestPause") {
-					toggleVideo(false);
-				} else if (data.type === "SIMID:Creative:requestPlay") {
-					toggleVideo(true);
+				switch (data.type) {
+					case "SIMID:Creative:requestPause":
+						toggleVideo(false);
+						break;
+					case "SIMID:Creative:requestPlay":
+						toggleVideo(true);
+						break;
+					case "SIMID:Creative:requestFullScreen":
+						toggleFullScreen(true);
+						break;
+					case "SIMID:Creative:requestExitFullScreen":
+						toggleFullScreen(false);
+						break;
+					case "SIMID:Creative:requestChangeVolume":
+						toggleMute(data.args.volume === 0);
+						break;
 				}
 			});
 		</script>

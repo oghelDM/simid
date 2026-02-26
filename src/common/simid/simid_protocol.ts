@@ -147,7 +147,7 @@ export class SimidProtocol {
 	 */
 	receiveMessage(event: any) {
 		const toto = document.getElementById("debug-console");
-		console.log("receiveMessage: ", event);
+		console.log("Creative receiveMessage: ", event);
 		if (toto && event) {
 			toto.innerHTML += event;
 		}

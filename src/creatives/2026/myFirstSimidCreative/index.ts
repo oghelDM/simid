@@ -17,30 +17,48 @@ class SimidDebug extends BaseSimidCreative {
 			return;
 		}
 
-		root.appendChild(
-			new ImageDM("img", `${this.assetsPrefixUrl}bg.png`, {
-				inset: "0 0 0 0",
-			}),
-		);
+		const btnContainer = new ImageDM("btnContainer", "", {
+			display: "flex",
+			flexDirection: "column",
+			flexWrap: "wrap",
+			gap: "12px",
+			alignContent: "start",
+		});
+		root.appendChild(btnContainer);
 
 		[
 			{
-				label: "requestPause",
+				label: "pause",
 				action: () => this.pauseAd(),
 			},
 			{
-				label: "requestPlay",
+				label: "play",
 				action: () => this.playAd(),
 			},
-		].forEach(({ label, action }, i) => {
+			{
+				label: "mute",
+				action: () => this.mute(),
+			},
+			{
+				label: "unmute",
+				action: () => this.unmute(),
+			},
+			{
+				label: "enter FS",
+				action: () => this.requestFullscreen(),
+			},
+			{
+				label: "exit FS",
+				action: () => this.requestExitFullscreen(),
+			},
+		].forEach(({ label, action }) => {
 			const btn = new ImageDM(`btn-${label}`, "", {
 				width: "200px",
 				height: "40px",
 				cursor: "pointer",
-				top: `${12 + 44 * i}px`,
-				left: "12px",
+				position: "relative",
 				lineHeight: "40px",
-				borderRadius: "12px",
+				borderRadius: "8px",
 				textAlign: "center",
 				backgroundColor: "crimson",
 				outline: "1.5px solid white",
@@ -53,7 +71,7 @@ class SimidDebug extends BaseSimidCreative {
 				console.log("click on button: ", label);
 				action();
 			});
-			root.appendChild(btn);
+			btnContainer.appendChild(btn);
 		});
 	}
 }

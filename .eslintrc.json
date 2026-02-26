@@ -12,6 +12,7 @@
 		"semi": [2, "always"],
 		"quotes": [2, "double"],
 		"@typescript-eslint/no-inferrable-types": 0,
-		"@typescript-eslint/no-namespace": 0
+		"@typescript-eslint/no-namespace": 0,
+		"@typescript-eslint/no-explicit-any": "off"
 	}
 }
