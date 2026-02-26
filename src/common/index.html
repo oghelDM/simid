@@ -305,6 +305,25 @@
 						break;
 				}
 			});
+
+			/////////// progress bar ////////////
+			const intervalId = window.setInterval(() => {
+				const duration = video.duration;
+				const currentTime = video.currentTime;
+				if (duration === undefined || currentTime === undefined) {
+					return;
+				}
+				const remainingTime = duration - currentTime;
+				if (remainingTime <= 0) {
+					window.clearInterval(intervalId);
+				}
+				progressBar.style.width = `${(currentTime / duration) * 100}%`;
+				const nbMinutes = Math.floor(remainingTime / 60);
+				const nbSeconds = Math.round(remainingTime % 60);
+				remainingTimeElt.innerHTML = `${nbMinutes}:${nbSeconds
+					.toString()
+					.padStart(2, "0")}`;
+			}, 100);
 		</script>
 	</body>
 </html>
