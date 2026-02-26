@@ -55,7 +55,7 @@ export class SimidProtocol {
 		window.addEventListener(
 			"message",
 			(e) => this.receiveMessage(e),
-			false
+			false,
 		);
 
 		// Used to simulate failed step, e.g ?blockedStep=Player:init ?blockedStep=Player:startCreative
@@ -291,7 +291,7 @@ export class SimidProtocol {
 		this.generateSessionId_();
 		this.sendMessage(ProtocolMessage.CREATE_SESSION).then(
 			sessionCreationResolved,
-			sessionCreationRejected
+			sessionCreationRejected,
 		);
 	}
 

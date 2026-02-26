@@ -53,10 +53,10 @@
 				background-color: rgba(255, 0, 0, 0.4);
 			}
 			iframe {
+				position: absolute;
 				width: 100%;
 				height: auto;
 				aspect-ratio: 16 / 9;
-				background: white;
 				padding: unset;
 				margin: unset;
 				border: none;
@@ -202,16 +202,61 @@
 				}
 			});
 
+			const video = document.getElementById("videoId");
 			const iframe = document.getElementById("creativeFrame");
 			iframe.onload = (a) => {
 				// Access iframe's window directly (same origin only)
 				const assetsPrefixUrl = iframe.contentWindow.assetsPrefixUrl;
 				console.log("Creative a:", a.target);
 				console.log("Creative assetsPrefixUrl:", assetsPrefixUrl);
-				const video = document.getElementById("videoId");
 				video.src = `${assetsPrefixUrl}video_mid.mp4`;
 				video.play();
 			};
+
+			// video controls
+			const playBtn = document.getElementById("playBtn-id");
+			const muteBtn = document.getElementById("muteBtn-id");
+			const fullscreenBtn = document.getElementById("fullscreenBtn-id");
+			const remainingTimeElt =
+				document.getElementById("remainingTime-id");
+			const progressBar = document.getElementById("progress-bar-id");
+
+			playBtn.innerHTML = "⏸️";
+			muteBtn.innerHTML = "🔇";
+			fullscreenBtn.innerHTML = "❇️";
+
+			const toggleVideo = (play) => {
+				playBtn.innerHTML = play ? "⏸️" : "▶️";
+				if (play) {
+					video.play();
+				} else {
+					video.pause();
+				}
+			};
+
+			// video controls towards creative
+			playBtn.addEventListener("click", (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				const isPlaying = playBtn.innerHTML === "⏸️";
+				toggleVideo(!isPlaying);
+				iframe.contentWindow.postMessage(
+					JSON.stringify(isPlaying ? "Media:pause" : "Media:play"),
+					"*",
+				);
+			});
+
+			// creative towards video controls
+			window.addEventListener("message", (event) => {
+				const data = JSON.parse(event.data);
+				console.log("message received event: ", event);
+				console.log("message received data: ", data);
+				if (data.type === "SIMID:Creative:requestPause") {
+					toggleVideo(false);
+				} else if (data.type === "SIMID:Creative:requestPlay") {
+					toggleVideo(true);
+				}
+			});
 		</script>
 	</body>
 </html>

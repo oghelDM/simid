@@ -1,4 +1,5 @@
 import {
+	CreativeErrorCode,
 	CreativeMessage,
 	MediaMessage,
 	PlayerMessage,
@@ -15,7 +16,7 @@ export class BaseSimidCreative {
 	private environmentData: any = {};
 	private videoState: any = {};
 	private simidVersion = "";
-	protected simidProtocol: any;
+	protected simidProtocol: SimidProtocol;
 
 	private root = document.body;
 
@@ -64,6 +65,212 @@ export class BaseSimidCreative {
 
 		this.addListeners_();
 	}
+
+	/**
+	 * Sets up the creative to send messages to the player
+	 */
+	protected pauseAd = () => {
+		this.simidProtocol
+			.sendMessage(CreativeMessage.REQUEST_PAUSE)
+			.then(() => {
+				console.log("Simid Creative requestPauseAd success");
+			})
+			.catch((err: any) => {
+				console.log("Simid Creative requestPauseAd failed", err);
+			});
+	};
+
+	protected playAd = () => {
+		this.simidProtocol
+			.sendMessage(CreativeMessage.REQUEST_PLAY)
+			.then(() => {
+				console.log("Simid Creative requestPlayAd success");
+			})
+			.catch((err: any) => {
+				console.log("Simid Creative requestPlayAd failed", err);
+			});
+	};
+
+	protected requestNavigation = () => {
+		this.simidProtocol
+			.sendMessage(CreativeMessage.REQUEST_NAVIGATION)
+			.then(() => {
+				console.log("Simid Creative REQUEST_NAVIGATION success");
+			})
+			.catch((err: any) => {
+				console.log("Simid Creative REQUEST_NAVIGATION failed", err);
+			});
+	};
+
+	protected skipAd = () => {
+		this.simidProtocol
+			.sendMessage(CreativeMessage.REQUEST_SKIP)
+			.then(() => {
+				console.log("Simid Creative requestSkip success");
+			})
+			.catch((err: any) => {
+				console.log("Simid Creative requestSkip failed", err);
+			});
+	};
+
+	protected stopAd = () => {
+		this.simidProtocol
+			.sendMessage(CreativeMessage.REQUEST_STOP)
+			.then(() => {
+				console.log("Simid Creative requestStop success");
+			})
+			.catch((err: any) => {
+				console.log("Simid Creative requestStop failed", err);
+			});
+	};
+
+	protected getMediaState = () => {
+		this.simidProtocol
+			.sendMessage(CreativeMessage.GET_MEDIA_STATE)
+			.then((state: any) => {
+				console.log("Simid Creative getMediaState success", state);
+				console.log(
+					"GET_MEDIA_STATE: ",
+					JSON.stringify(state, null, 2),
+				);
+				// const textContent = document.querySelector(".text-content");
+				// textContent.innerHTML = `<pre>${JSON.stringify(
+				// 	state,
+				// 	null,
+				// 	2,
+				// )}</pre>`;
+			})
+			.catch((err: any) => {
+				console.log("Simid Creative getMediaState failed", err);
+			});
+	};
+
+	protected log = () => {
+		this.simidProtocol.sendMessage(CreativeMessage.LOG, {
+			message:
+				"Be you, be proud of you because you can do what you want to do",
+		});
+	};
+
+	protected clickThru = () => {
+		this.simidProtocol.sendMessage(CreativeMessage.CLICK_THRU, {
+			x: 0,
+			y: 0,
+			url: "https://adtester.dailymotion.com",
+			playerHandles: true,
+		});
+	};
+
+	protected mute = () => {
+		this.simidProtocol
+			.sendMessage(CreativeMessage.REQUEST_VOLUME, {
+				volume: 0,
+				muted: true,
+			})
+			.then(() => {
+				console.log("Simid Creative REQUEST_VOLUME success");
+			})
+			.catch((err: any) => {
+				console.log("Simid Creative REQUEST_VOLUME failed", err);
+			});
+	};
+
+	protected unmute = () => {
+		this.simidProtocol
+			.sendMessage(CreativeMessage.REQUEST_VOLUME, {
+				volume: 1,
+				muted: false,
+			})
+			.then(() => {
+				console.log("Simid Creative REQUEST_VOLUME success");
+			})
+			.catch((err: any) => {
+				console.log("Simid Creative REQUEST_VOLUME failed", err);
+			});
+	};
+
+	protected setWrongVolume = () => {
+		this.simidProtocol
+			.sendMessage(CreativeMessage.REQUEST_VOLUME, {
+				volume: -1,
+				muted: "yes",
+			})
+			.then(() => {
+				console.log("Simid Creative REQUEST_VOLUME success");
+			})
+			.catch((err: any) => {
+				console.log("Simid Creative REQUEST_VOLUME failed", err);
+			});
+	};
+
+	protected error = () => {
+		this.simidProtocol.sendMessage(CreativeMessage.FATAL_ERROR, {
+			errorCode: CreativeErrorCode.TECHNICAL_ERROR,
+			errorMessage: "This is a random on purpose error",
+		});
+	};
+
+	protected reportTracking = () => {
+		this.simidProtocol
+			.sendMessage(CreativeMessage.REQUEST_TRACKING, {
+				trackingUrls: [
+					"https://adtester.dailymotion.com/ad-fake-event/tracker1",
+					"https://adtester.dailymotion.com/ad-fake-event/tracker2",
+					"https://adtester.dailymotion.com/ad-fake-event/tracker3?ps=[PLAYERSTATE]&ch=[CONTENTPLAYHEAD]&psz=[PLAYERSIZE]",
+				],
+			})
+			.then(() => {
+				console.log("Simid Creative REQUEST_TRACKING success");
+			})
+			.catch((err: any) => {
+				console.log("Simid Creative REQUEST_TRACKING failed", err);
+			});
+	};
+
+	protected changeAdDuration = () => {
+		this.simidProtocol
+			.sendMessage(CreativeMessage.REQUEST_CHANGE_AD_DURATION, {
+				duration: 60,
+			})
+			.then(() => {
+				console.log(
+					"Simid Creative REQUEST_CHANGE_AD_DURATION success",
+				);
+			})
+			.catch((err: any) => {
+				console.log(
+					"Simid Creative REQUEST_CHANGE_AD_DURATION failed",
+					err,
+				);
+			});
+	};
+
+	protected requestFullscreen = () => {
+		this.simidProtocol
+			.sendMessage(CreativeMessage.REQUEST_FULL_SCREEN, {
+				duration: 30,
+			})
+			.then(() => {
+				console.log("Simid Creative REQUEST_FULL_SCREEN success");
+			})
+			.catch((err: any) => {
+				console.log("Simid Creative REQUEST_FULL_SCREEN failed", err);
+			});
+	};
+
+	protected requestExitFullscreen = () => {
+		this.simidProtocol
+			.sendMessage(CreativeMessage.REQUEST_EXIT_FULL_SCREEN)
+			.then(() => {
+				console.log("Simid Creative REQUEST_EXIT_FULL_SCREEN success");
+			})
+			.catch((err: any) => {
+				console.log(
+					"Simid Creative REQUEST_EXIT_FULL_SCREEN failed",
+					err,
+				);
+			});
+	};
 
 	/**
 	 * Sets up the creative to listen for messages from the player
@@ -201,12 +408,6 @@ export class BaseSimidCreative {
 			eventData.args?.creativeDimensions;
 		this.environmentData.videoDimensions = eventData.args?.videoDimensions;
 	}
-
-	/**
-	 * Opens the click through url and lets the player know about it.
-	 * @protected
-	 */
-	clickThru() {}
 
 	/**
 	 * Asks the player for the state of the video element.
