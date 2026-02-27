@@ -17,10 +17,11 @@ export class BaseSimidCreative {
 	private videoState: any = {};
 	private simidVersion = "";
 	protected simidProtocol: SimidProtocol;
-
-	private root = document.body;
+	protected root: HTMLElement;
 
 	constructor(assetsPrefixUrl: string) {
+		this.root = document.getElementById("creative-root") as HTMLElement;
+
 		this.assetsPrefixUrl = assetsPrefixUrl;
 		(window as any).assetsPrefixUrl = assetsPrefixUrl;
 

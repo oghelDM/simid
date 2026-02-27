@@ -1,6 +1,6 @@
-import { ClickThrough } from "@/components/clickThrough";
-import { Collection } from "@/components/collection";
 import { ImageDM } from "@/components/image";
+import { Collection } from "@/components/collection";
+import { ClickThrough } from "@/components/clickThrough";
 import { BaseSimidCreative } from "@/simid/base_simid_creative";
 
 console.log("hello3");
@@ -15,7 +15,7 @@ const clickUrls = [
 	"https://www.nutripure.fr/fr/endurance/193-950-barre-energetique.html#/281-barre_energetique_saveurs-fruits_rouges/284-barre_energetique_format-6_barres?utm_source=dailymotion&utm_medium=display&utm_campaign=gel-endurance",
 ];
 
-class SimidDebug extends BaseSimidCreative {
+class SimidCreative extends BaseSimidCreative {
 	constructor() {
 		super(
 			"https://statics.dmcdn.net/d/PRODUCTION/2026/myFirstSimidCreative/assets/",
@@ -23,19 +23,13 @@ class SimidDebug extends BaseSimidCreative {
 
 		console.log("hello");
 
-		const root = document.getElementById("player-wrapper");
-
-		if (!root) {
-			return;
-		}
-
 		const bg = new ClickThrough(
 			"bg",
 			`${this.assetsPrefixUrl}bg.png`,
 			clickUrl,
 			this.clickThru,
 		);
-		root.appendChild(bg);
+		this.root.appendChild(bg);
 
 		const arrows = ["left", "right"].map(
 			(name, i) =>
@@ -111,9 +105,9 @@ class SimidDebug extends BaseSimidCreative {
 				// backgroundColor: "rgba(255,0,0,.4)",
 			},
 		);
-		root.appendChild(collection);
+		this.root.appendChild(collection);
 
-		arrows.forEach((arrow) => root.appendChild(arrow));
+		arrows.forEach((arrow) => this.root.appendChild(arrow));
 
 		const btnContainer = new ImageDM("btnContainer", "", {
 			display: "flex",
@@ -125,7 +119,7 @@ class SimidDebug extends BaseSimidCreative {
 			boxSizing: "border-box",
 			pointerEvents: "none",
 		});
-		root.appendChild(btnContainer);
+		this.root.appendChild(btnContainer);
 
 		[
 			{
@@ -178,5 +172,5 @@ class SimidDebug extends BaseSimidCreative {
 	}
 }
 
-const creative = new SimidDebug();
+const creative = new SimidCreative();
 creative.ready();
