@@ -1,28 +1,28 @@
 <VAST version="4.2">
-    <Ad id="POC_SIMID">
+    <Ad id="{campaignName}">
         <InLine>
             <AdSystem>StudioDM</AdSystem>
-            <AdTitle>POC_SIMID</AdTitle>
+            <AdTitle>{campaignName}</AdTitle>
             <ViewableImpression/>
             <AdVerifications/>
             <Extensions/>
             <Creatives>
-                <Creative id="POC_SIMIDc">
+                <Creative id="{campaignName}c">
                     <Linear>
-                        <Duration>00:00:15</Duration>
+                        <Duration>00:00:{duration}</Duration>
                         <TrackingEvents/>
                         <VideoClicks/>
                         <MediaFiles>
                             <MediaFile id="1" delivery="progressive" type="video/mp4" height="1080" width="1920" maintainAspectRatio="true" scalable="true">
-                                <![CDATA[ https://statics.dmcdn.net/d/TESTS/SIMID/fwk_0/video_high.mp4  ]]>
+                                <![CDATA[ {videoPrefixUrl}video_high.mp4 ]]>
                             </MediaFile>
                             <MediaFile id="2" delivery="progressive" type="video/mp4" height="720" width="1280" maintainAspectRatio="true" scalable="true">
-                                <![CDATA[ https://statics.dmcdn.net/d/TESTS/SIMID/fwk_0/video_mid.mp4  ]]>
+                                <![CDATA[ {videoPrefixUrl}video_mid.mp4 ]]>
                             </MediaFile>
                             <MediaFile id="3" delivery="progressive" type="video/mp4" height="480" width="854" maintainAspectRatio="true" scalable="true">
-                                <![CDATA[ https://statics.dmcdn.net/d/TESTS/SIMID/fwk_0/video_low.mp4 ]]>
+                                <![CDATA[ {videoPrefixUrl}video_low.mp4 ]]>
                             </MediaFile>
-                            <InteractiveCreativeFile type="text/html" apiFramework="SIMID" variableDuration="true">https://statics.dmcdn.net/d/TESTS/SIMID/fwk_1/creative.html</InteractiveCreativeFile>
+                            <InteractiveCreativeFile type="text/html" apiFramework="SIMID" variableDuration="true">{htmlUrl}</InteractiveCreativeFile>
                         </MediaFiles>
                     </Linear>
                 </Creative>

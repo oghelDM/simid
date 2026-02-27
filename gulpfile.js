@@ -8,7 +8,7 @@ const replace = require("gulp-replace");
 const modifyFile = require("gulp-modify-file");
 
 gulp.task("default", function (arg) {
-	gutil.log("start gulp");
+	gutil.log("start gulp: ", arg);
 
 	const year = argv.year;
 	const campaign = argv.campaign;
@@ -47,26 +47,36 @@ gulp.task("default", function (arg) {
 	const destinationUrl = `/PRODUCTION/${year}/${campaign}/${buildFolder}/${shortUuid}`;
 
 	const indexUrl = `https://statics.dmcdn.net/d${destinationUrl}/index.js`;
-	const vastInputFileName = isTakeOver ? "vast_take_over.xml" : "vast.xml";
+	const vastInputFileName = isTakeOver
+		? "vast_take_over.xml"
+		: "vast_simid.xml";
 	const vastSourceUrl = `./deploy/${vastInputFileName}`;
 
 	const vastOutputFileNames = isTakeOver
 		? ["vast_mobile.xml", "vast_desktop.xml"]
-		: ["vast.xml"];
+		: ["vast_simid.xml"];
+
+	const videoPrefixUrl = `https://statics.dmcdn.net/d/PRODUCTION/${year}/${campaign}/assets${version ? "_" + version : ""}/`;
+	console.log("videoPrefixUrl: ", videoPrefixUrl);
+
+	const htmlUrl = `https://statics.dmcdn.net/d/PRODUCTION/${year}/${campaign}/${buildFolder}/${shortUuid}/creative.html`;
+	console.log("htmlUrl: ", htmlUrl);
 
 	vastOutputFileNames.forEach((vastOutputFileName) => {
 		gulp.src(vastSourceUrl, { passthrough: true })
 			.pipe(
-				modifyFile((content, path, file) => {
+				modifyFile((content) => {
 					const updatedContent = content
 						.toString()
 						.replaceAll("{campaignName}", campaign)
 						.replaceAll("{version}", version || "v1.0")
 						.replaceAll("{indexUrl}", indexUrl)
 						.replaceAll("{duration}", duration)
+						.replaceAll("{videoPrefixUrl}", videoPrefixUrl)
+						.replaceAll("{htmlUrl}", htmlUrl)
 						.replaceAll("{adServingId}", adServingId);
 					return updatedContent;
-				})
+				}),
 			)
 			.pipe(rename(vastOutputFileName))
 			.pipe(conn.dest(destinationUrl));
@@ -77,7 +87,7 @@ gulp.task("default", function (arg) {
 	console.log("vast url mobile: ", vastDestinationUrl);
 	console.log(
 		"vast url desktop: ",
-		vastDestinationUrl.replace("mobile", "desktop")
+		vastDestinationUrl.replace("mobile", "desktop"),
 	);
 	console.log(
 		"demo link: ",
@@ -85,15 +95,19 @@ gulp.task("default", function (arg) {
 			isTakeOver ? "1&env=OLV" : "0"
 		}&DM=true&url=${year}/${campaign}/${buildFolder}/${shortUuid}/${
 			vastOutputFileNames[0]
-		}`
+		}`,
 	);
 	const proc = require("child_process").spawn("pbcopy");
 	proc.stdin.write(vastDestinationUrl);
 	proc.stdin.end();
 
+	gulp.src(["build/creative.html"], { base: "./build", buffer: false }).pipe(
+		conn.dest(destinationUrl),
+	);
+
 	return (
 		gulp
-			.src(["build/index.js"], { base: "./build", buffer: false })
+			.src(["build/creative.js"], { base: "./build", buffer: false })
 			// force a random query string to make sure assets are not in user's cache
 			.pipe(replace("?q=CACHE_QUERY", `?q=${shortUuid}`))
 			.pipe(conn.dest(destinationUrl))
