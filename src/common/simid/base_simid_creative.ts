@@ -152,11 +152,11 @@ export class BaseSimidCreative {
 		});
 	};
 
-	protected clickThru = () => {
+	protected clickThru = (url: string) => {
 		this.simidProtocol.sendMessage(CreativeMessage.CLICK_THRU, {
 			x: 0,
 			y: 0,
-			url: "https://adtester.dailymotion.com",
+			url,
 			playerHandles: true,
 		});
 	};
