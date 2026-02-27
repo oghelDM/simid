@@ -3,6 +3,7 @@ const ftp = require("vinyl-ftp");
 const crypto = require("crypto");
 const gutil = require("gulp-util");
 const argv = require("yargs").argv;
+const merge = require("merge-stream");
 const rename = require("gulp-rename");
 const replace = require("gulp-replace");
 const modifyFile = require("gulp-modify-file");
@@ -62,26 +63,6 @@ gulp.task("default", function (arg) {
 	const htmlUrl = `https://statics.dmcdn.net/d/PRODUCTION/${year}/${campaign}/${buildFolder}/${shortUuid}/creative.html`;
 	console.log("htmlUrl: ", htmlUrl);
 
-	vastOutputFileNames.forEach((vastOutputFileName) => {
-		gulp.src(vastSourceUrl, { passthrough: true })
-			.pipe(
-				modifyFile((content) => {
-					const updatedContent = content
-						.toString()
-						.replaceAll("{campaignName}", campaign)
-						.replaceAll("{version}", version || "v1.0")
-						.replaceAll("{indexUrl}", indexUrl)
-						.replaceAll("{duration}", duration)
-						.replaceAll("{videoPrefixUrl}", videoPrefixUrl)
-						.replaceAll("{htmlUrl}", htmlUrl)
-						.replaceAll("{adServingId}", adServingId);
-					return updatedContent;
-				}),
-			)
-			.pipe(rename(vastOutputFileName))
-			.pipe(conn.dest(destinationUrl));
-	});
-
 	// copy the vast url to clipboard
 	const vastDestinationUrl = `https://statics.dmcdn.net/d/PRODUCTION/${year}/${campaign}/${buildFolder}/${shortUuid}/${vastOutputFileNames[0]}`;
 	console.log("vast url mobile: ", vastDestinationUrl);
@@ -97,19 +78,36 @@ gulp.task("default", function (arg) {
 			vastOutputFileNames[0]
 		}`,
 	);
+
+	// copy to clipboard
 	const proc = require("child_process").spawn("pbcopy");
 	proc.stdin.write(vastDestinationUrl);
 	proc.stdin.end();
 
-	gulp.src(["build/creative.html"], { base: "./build", buffer: false }).pipe(
-		conn.dest(destinationUrl),
-	);
+	const vastStreams = vastOutputFileNames.map((vastOutputFileName) => {
+		return gulp
+			.src(vastSourceUrl, { passthrough: true })
+			.pipe(
+				modifyFile((content) => {
+					return content
+						.toString()
+						.replaceAll("{campaignName}", campaign)
+						.replaceAll("{version}", version || "v1.0")
+						.replaceAll("{indexUrl}", indexUrl)
+						.replaceAll("{duration}", duration)
+						.replaceAll("{videoPrefixUrl}", videoPrefixUrl)
+						.replaceAll("{htmlUrl}", htmlUrl)
+						.replaceAll("{adServingId}", adServingId);
+				}),
+			)
+			.pipe(rename(vastOutputFileName));
+	});
 
-	return (
+	return merge(
+		...vastStreams,
+		gulp.src(["build/creative.html"], { base: "./build", buffer: false }),
 		gulp
 			.src(["build/creative.js"], { base: "./build", buffer: false })
-			// force a random query string to make sure assets are not in user's cache
-			.pipe(replace("?q=CACHE_QUERY", `?q=${shortUuid}`))
-			.pipe(conn.dest(destinationUrl))
-	);
+			.pipe(replace("?q=CACHE_QUERY", `?q=${shortUuid}`)),
+	).pipe(conn.dest(destinationUrl));
 });

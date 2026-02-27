@@ -23,16 +23,6 @@ export class SimidProtocol {
 		 * @private {String}
 		 */
 		this.sessionId_ = "";
-		`{
-			sessionId:3eefc128-7272-4615-8548-4c811016fe9a,
-			messageId:25,
-			type:SIMID:Media:volumechange,
-			timestamp:1749657714798,
-			args:{
-				volume:0.6000000000000001,
-				muted:false
-			}
-		}`;
 
 		/**
 		 * The next message ID to use when sending a message.
@@ -146,18 +136,13 @@ export class SimidProtocol {
 	 * Receives messages from either the player or creative.
 	 */
 	receiveMessage(event: any) {
-		const toto = document.getElementById("debug-console");
 		console.log("Creative receiveMessage: ", event);
-		if (toto && event) {
-			toto.innerHTML += event;
-		}
 		if (!event || !event.data) {
 			return;
 		}
 		let data: any;
 		try {
 			data = JSON.parse(event.data);
-			console.log("data: ", data);
 		} catch (e) {}
 		if (!data) {
 			// If there is no data in the event this is not a SIMID message.
