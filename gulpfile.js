@@ -1,7 +1,7 @@
 const gulp = require("gulp");
 const ftp = require("vinyl-ftp");
 const crypto = require("crypto");
-const gutil = require("gulp-util");
+const log = require("fancy-log");
 const argv = require("yargs").argv;
 const merge = require("merge-stream");
 const rename = require("gulp-rename");
@@ -9,7 +9,7 @@ const replace = require("gulp-replace");
 const modifyFile = require("gulp-modify-file");
 
 gulp.task("default", function (arg) {
-	gutil.log("start gulp: ", arg);
+	log("start gulp: ", arg);
 
 	const year = argv.year;
 	const campaign = argv.campaign;
@@ -31,7 +31,8 @@ gulp.task("default", function (arg) {
 		host: "statics.adm.dailymotion.com",
 		user: process.env.CDN_STUDIO_USER,
 		password: process.env.CDN_STUDIO_PSWD,
-		parallel: 10,
+		parallel: 20,
+		maxConnections: 20,
 		port: 21,
 		reload: true,
 		// debug: function (d) {
@@ -39,7 +40,7 @@ gulp.task("default", function (arg) {
 		// },
 		secureOptions: { rejectUnauthorized: false },
 		secure: true,
-		// log: gutil.log,
+		// log: log,
 	});
 
 	const uuid = crypto.randomUUID();
@@ -70,14 +71,14 @@ gulp.task("default", function (arg) {
 		"vast url desktop: ",
 		vastDestinationUrl.replace("mobile", "desktop"),
 	);
-	console.log(
-		"demo link: ",
-		`https://statics.dmcdn.net/d/services/public/demoSite/current/index.html?device=${
-			isTakeOver ? "1&env=OLV" : "0"
-		}&DM=true&url=${year}/${campaign}/${buildFolder}/${shortUuid}/${
-			vastOutputFileNames[0]
-		}`,
-	);
+	// console.log(
+	// 	"demo link: ",
+	// 	`https://statics.dmcdn.net/d/services/public/demoSite/current/index.html?device=${
+	// 		isTakeOver ? "1&env=OLV" : "0"
+	// 	}&DM=true&url=${year}/${campaign}/${buildFolder}/${shortUuid}/${
+	// 		vastOutputFileNames[0]
+	// 	}`,
+	// );
 
 	// copy to clipboard
 	const proc = require("child_process").spawn("pbcopy");
@@ -109,5 +110,13 @@ gulp.task("default", function (arg) {
 		gulp
 			.src(["build/creative.js"], { base: "./build", buffer: false })
 			.pipe(replace("?q=CACHE_QUERY", `?q=${shortUuid}`)),
-	).pipe(conn.dest(destinationUrl));
+	)
+		.pipe(conn.dest(destinationUrl))
+		.on("error", (err) => {
+			console.error("Upload failed:", err);
+			process.exit(1);
+		})
+		.on("end", () => {
+			console.log("✓ Upload completed successfully");
+		});
 });

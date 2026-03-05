@@ -246,10 +246,12 @@
 				e.stopPropagation();
 				const isPlaying = playBtn.innerHTML === "⏸️";
 				toggleVideo(!isPlaying);
-				iframe.contentWindow.postMessage(
-					JSON.stringify(isPlaying ? "Media:pause" : "Media:play"),
-					"*",
-				);
+				const message = {
+					sessionId,
+					type: isPlaying ? "SIMID:Media:pause" : "SIMID:Media:play",
+					timestamp: Date.now(),
+				};
+				iframe.contentWindow.postMessage(JSON.stringify(message), "*");
 			});
 			fullscreenBtn.addEventListener("click", (e) => {
 				e.preventDefault();
@@ -263,17 +265,19 @@
 				e.stopPropagation();
 				const isMuted = muteBtn.innerHTML === "🔇";
 				toggleMute(!isMuted);
-				iframe.contentWindow.postMessage(
-					JSON.stringify(isMuted ? "Media:unmute" : "Media:mute"),
-					"*",
-				);
+				const message = {
+					sessionId,
+					type: "SIMID:Media:volumechange",
+					timestamp: Date.now(),
+					args: { volume: isMuted ? 1 : 0 },
+				};
+				iframe.contentWindow.postMessage(JSON.stringify(message), "*");
 			});
 
 			let sessionId;
 			// from creative towards video controls
 			window.addEventListener("message", (event) => {
 				const data = JSON.parse(event.data);
-				console.log("message received data: ", data);
 				switch (data.type) {
 					case "createSession":
 						sessionId = data.sessionId;

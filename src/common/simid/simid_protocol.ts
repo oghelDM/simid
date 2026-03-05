@@ -136,13 +136,16 @@ export class SimidProtocol {
 	 * Receives messages from either the player or creative.
 	 */
 	receiveMessage(event: any) {
-		console.log("Creative receiveMessage: ", event);
 		if (!event || !event.data) {
 			return;
 		}
 		let data: any;
 		try {
 			data = JSON.parse(event.data);
+			console.log(
+				"simid protocole receiveMessage: ",
+				JSON.parse(event.data),
+			);
 		} catch (e) {}
 		if (!data) {
 			// If there is no data in the event this is not a SIMID message.

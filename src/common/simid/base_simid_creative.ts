@@ -14,7 +14,7 @@ export class BaseSimidCreative {
 
 	private creativeData: any = {};
 	private environmentData: any = {};
-	private videoState: any = {};
+	protected videoState: any = {};
 	private simidVersion = "";
 	protected simidProtocol: SimidProtocol;
 	protected root: HTMLElement;
@@ -488,7 +488,7 @@ export class BaseSimidCreative {
 	 */
 	onTimeUpdate(data: any) {
 		console.log(
-			"onTimeUpdate: ",
+			"creative onTimeUpdate: ",
 			this.videoState,
 			data,
 			data.args.currentTime,

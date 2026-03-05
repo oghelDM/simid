@@ -16,6 +16,8 @@ const clickUrls = [
 ];
 
 class SimidCreative extends BaseSimidCreative {
+	private eventDisplay: HTMLElement;
+
 	constructor() {
 		super(
 			"https://statics.dmcdn.net/d/PRODUCTION/2026/myFirstSimidCreative/assets/",
@@ -148,8 +150,9 @@ class SimidCreative extends BaseSimidCreative {
 			},
 		].forEach(({ label, action }) => {
 			const btn = new ImageDM(`btn-${label}`, "", {
-				width: "200px",
-				height: "40px",
+				width: "12%",
+				height: "auto",
+				aspectRatio: "4 / 1",
 				cursor: "pointer",
 				position: "relative",
 				lineHeight: "40px",
@@ -169,6 +172,39 @@ class SimidCreative extends BaseSimidCreative {
 			});
 			btnContainer.appendChild(btn);
 		});
+
+		this.eventDisplay = new ImageDM("eventDisplay", "", {
+			width: "15%",
+			height: "auto",
+			right: "1%",
+			top: "3%",
+			aspectRatio: "4 / 1",
+			lineHeight: "40px",
+			borderRadius: "8px",
+			textAlign: "center",
+			backgroundColor: "darkgreen",
+			outline: "1.5px solid white",
+			color: "white",
+		});
+		this.root.appendChild(this.eventDisplay);
+	}
+
+	onPause() {
+		super.onPause();
+		console.log("creative: video paused");
+		this.eventDisplay.innerHTML = "pause video";
+	}
+
+	onPlay() {
+		super.onPlay();
+		console.log("creative: video played");
+		this.eventDisplay.innerHTML = "play video";
+	}
+
+	onVolumeChange(e: any) {
+		super.onVolumeChange(e);
+		console.log("creative: video onVolumeChange: ", e);
+		this.eventDisplay.innerHTML = "volume change: " + e.args.volume;
 	}
 }
 
