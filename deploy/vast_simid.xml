@@ -12,6 +12,9 @@
                         <Duration>00:00:{duration}</Duration>
                         <TrackingEvents/>
                         <VideoClicks/>
+                        <AdParameters>
+                            <![CDATA[ { "creativeId":"{campaignName}",  "creativeVersion":"{version}" } ]]>
+                        </AdParameters>
                         <MediaFiles>
                             <MediaFile id="1" delivery="progressive" type="video/mp4" height="1080" width="1920" maintainAspectRatio="true" scalable="true">
                                 <![CDATA[ {videoPrefixUrl}video_high.mp4 ]]>

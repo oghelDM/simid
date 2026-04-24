@@ -40,7 +40,7 @@ enum INTERACTION_TYPE_LIMITED {
 }
 
 const DEFAULT_AD_PARAMS =
-	'{ "creativeId": "creativeIdUnknown", "creativeVersion":"" }';
+	'{"creativeId":"creativeIdUnknown","creativeVersion":""}';
 
 export abstract class Tracking {
 	private static uuid: string;
@@ -125,18 +125,18 @@ export abstract class Tracking {
 			this.actuallySendTracker(
 				"creative",
 				INTERACTION_TYPE_LIMITED.auto,
-				"start"
+				"start",
 			);
 		} catch (error) {
 			console.log("error while parsing macros: ", error);
 		}
 	}
 
-	public static sendTracker = async (
+	public static sendTracker = (
 		elementName: string | ELEMENT_NAME,
 		interactionType: INTERACTION_TYPE,
 		event: PointerEvent | MouseEvent,
-		interactionMsg = ""
+		interactionMsg = "",
 	) => {
 		// add this to a new payload field
 		if (event.target && event.target instanceof Element) {
@@ -204,16 +204,11 @@ export abstract class Tracking {
 				break;
 		}
 
-		await Promise.race([
-			this.actuallySendTracker(
-				elementName,
-				interaction_type,
-				interaction_msg
-			),
-			new Promise((resolve) =>
-				setTimeout(() => resolve(undefined), DEBOUCE)
-			),
-		]);
+		this.actuallySendTracker(
+			elementName,
+			interaction_type,
+			interaction_msg,
+		);
 	};
 
 	private static getAncestorOrigins = (): string[] => {
@@ -240,7 +235,7 @@ export abstract class Tracking {
 	private static actuallySendTracker = async (
 		elementName: string,
 		interactionType: INTERACTION_TYPE_LIMITED,
-		interactionMessage: string
+		interactionMessage: string,
 	) => {
 		const topDomain = this.getAncestorOrigins().pop();
 
@@ -289,6 +284,7 @@ export abstract class Tracking {
 					Origin: "https://geo.dailymotion.com",
 				},
 				body: JSON.stringify(payload),
+				keepalive: true,
 			});
 
 			if (response.ok) {

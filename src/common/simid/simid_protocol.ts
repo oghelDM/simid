@@ -164,6 +164,7 @@ export class SimidProtocol {
 
 		if (!validSessionId || type == null) {
 			// Ignore invalid messages.
+			console.log("simid protocol invalid session");
 			return;
 		}
 

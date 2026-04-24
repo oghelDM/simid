@@ -12,7 +12,6 @@ const clickUrls = [
 	"https://www.nutripure.fr/fr/endurance/275-boisson-recuperation.html?utm_source=dailymotion&utm_medium=display&utm_campaign=gel-endurance",
 	"https://www.nutripure.fr/fr/endurance/279-1311-pastille-hydratation.html?utm_source=dailymotion&utm_medium=display&utm_campaign=gel-endurance",
 	"https://www.nutripure.fr/fr/endurance/278-boisson-energetique-60g.html?utm_source=dailymotion&utm_medium=display&utm_campaign=gel-endurance",
-	"https://www.nutripure.fr/fr/endurance/193-950-barre-energetique.html#/281-barre_energetique_saveurs-fruits_rouges/284-barre_energetique_format-6_barres?utm_source=dailymotion&utm_medium=display&utm_campaign=gel-endurance",
 ];
 
 class SimidCreative extends BaseSimidCreative {

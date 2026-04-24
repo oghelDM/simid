@@ -5,6 +5,7 @@ import {
 	PlayerMessage,
 	SimidProtocol,
 } from "@/simid/simid_protocol";
+import { Tracking } from "@/utils/tracking";
 /*
  * A subclass of a SIMID ad that implements functionality that will
  * be the same for all simid ads.
@@ -303,25 +304,23 @@ export class BaseSimidCreative {
 		this.simidProtocol.addListener(MediaMessage.DURATION_CHANGE, (e: any) =>
 			this.onDurationChange(e),
 		);
-		this.simidProtocol.addListener(MediaMessage.ENDED, (e: any) =>
+		this.simidProtocol.addListener(MediaMessage.ENDED, () =>
 			this.onVideoEnded(),
 		);
-		this.simidProtocol.addListener(MediaMessage.ERROR, (e: any) =>
+		this.simidProtocol.addListener(MediaMessage.ERROR, () =>
 			this.onVideoError(),
 		);
-		this.simidProtocol.addListener(MediaMessage.PAUSE, (e: any) =>
+		this.simidProtocol.addListener(MediaMessage.PAUSE, () =>
 			this.onPause(),
 		);
-		this.simidProtocol.addListener(MediaMessage.PLAY, (e: any) =>
-			this.onPlay(),
-		);
-		this.simidProtocol.addListener(MediaMessage.PLAYING, (e: any) =>
+		this.simidProtocol.addListener(MediaMessage.PLAY, () => this.onPlay());
+		this.simidProtocol.addListener(MediaMessage.PLAYING, () =>
 			this.onPlaying(),
 		);
-		this.simidProtocol.addListener(MediaMessage.SEEKED, (e: any) =>
+		this.simidProtocol.addListener(MediaMessage.SEEKED, () =>
 			this.onSeeked(),
 		);
-		this.simidProtocol.addListener(MediaMessage.SEEKING, (e: any) =>
+		this.simidProtocol.addListener(MediaMessage.SEEKING, () =>
 			this.onSeeking(),
 		);
 		this.simidProtocol.addListener(MediaMessage.TIME_UPDATE, (e: any) =>
@@ -359,6 +358,8 @@ export class BaseSimidCreative {
 		this.environmentData = eventData.args.environmentData;
 		this.videoState.muted = this.environmentData.muted;
 		this.videoState.volume = this.environmentData.volume;
+
+		Tracking.init(this.creativeData.adParameters);
 	}
 
 	/**
